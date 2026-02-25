@@ -6,7 +6,10 @@ import ProjectModal from "../components/ProjectModal.jsx";
 export default function Projects() {
   const [selected, setSelected] = useState(null);
 
-  const openProject = (project) => setSelected(project);
+  const toggleProject = (project) => {
+    setSelected((prev) => (prev?.id === project.id ? null : project));
+  };
+
   const closeProject = () => setSelected(null);
 
   return (
@@ -14,12 +17,12 @@ export default function Projects() {
       <div className="container">
         <div className="sectionHeader">
           <h2 className="sectionTitle">Projects</h2>
-          <p className="muted">Open a project to view the case study.</p>
+          <p className="muted">Tap a card to open. Tap it again to close.</p>
         </div>
 
         <div className="grid">
           {projects.map((p) => (
-            <ProjectCard key={p.id} project={p} onOpen={openProject} />
+            <ProjectCard key={p.id} project={p} onToggle={toggleProject} />
           ))}
         </div>
       </div>

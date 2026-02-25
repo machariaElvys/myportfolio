@@ -1,6 +1,15 @@
-export default function ProjectCard({ project, onOpen }) {
+export default function ProjectCard({ project, onToggle }) {
   return (
-    <article className="card">
+    <article
+      className="card"
+      onClick={() => onToggle(project)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") onToggle(project);
+      }}
+      aria-label={`Open project: ${project.title}`}
+    >
       <div className="cardMedia">
         <img
           src={project.image}
@@ -28,6 +37,7 @@ export default function ProjectCard({ project, onOpen }) {
               href={project.liveUrl}
               target="_blank"
               rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
             >
               Live
             </a>
@@ -43,6 +53,7 @@ export default function ProjectCard({ project, onOpen }) {
               href={project.repoUrl}
               target="_blank"
               rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
             >
               GitHub
             </a>
@@ -55,7 +66,10 @@ export default function ProjectCard({ project, onOpen }) {
           <button
             className="btn btnSecondary"
             type="button"
-            onClick={() => onOpen(project)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggle(project);
+            }}
           >
             Details
           </button>
