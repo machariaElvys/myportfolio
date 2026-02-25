@@ -27,9 +27,7 @@ export default function Contact() {
             <a className="link" href={GITHUB} target="_blank" rel="noreferrer">GitHub</a>
           </div>
 
-          <p className="muted note">
-            Replace the email and social links in this file with your real ones.
-          </p>
+         
         </div>
 
         <form className="form" onSubmit={onSubmit}>
