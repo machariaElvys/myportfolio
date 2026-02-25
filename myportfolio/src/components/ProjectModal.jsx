@@ -13,7 +13,6 @@ export default function ProjectModal({ project, onClose }) {
 
     window.addEventListener("keydown", onKeyDown);
 
-    // focus close button for accessibility
     closeBtnRef.current?.focus();
 
     return () => {
