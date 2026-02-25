@@ -67,3 +67,24 @@ button, input, textarea { font: inherit; }
 }
 
 .note { margin-top: 14px; font-size: 14px; }
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+a,
+button,
+input,
+textarea {
+  transition: border-color var(--ease), background var(--ease), transform var(--ease), opacity var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a,
+  button,
+  input,
+  textarea {
+    transition: none;
+  }
+}

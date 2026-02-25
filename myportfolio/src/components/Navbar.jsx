@@ -106,6 +106,10 @@ export default function Navbar() {
 
   return (
     <header className="siteHeader">
+    <a className="skipLink" href="#home">
+      Skip to content
+     </a>
+     
       <div className="container navRow">
         <a
           className="brand"

@@ -4,6 +4,16 @@
   overflow: hidden;
   background: var(--surface);
   box-shadow: var(--shadow);
+  transition: transform var(--ease), border-color var(--ease), box-shadow var(--ease);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--text) 22%, var(--border));
+}
+
+.card:focus-within {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
 }
 
 .cardMedia img {

@@ -19,6 +19,9 @@
   --lh: 1.6;
 
   color-scheme: light;
+
+  --focus: color-mix(in srgb, var(--accent) 60%, transparent);
+  --ease: 160ms ease;
 }
 
 @media (prefers-color-scheme: dark) {
