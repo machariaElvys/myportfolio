@@ -1,0 +1,14 @@
+@media (max-width: 900px) {
+  :root { --h1: 44px; }
+  .heroGrid { grid-template-columns: 1fr; }
+  .split { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: 1fr; }
+  .skillsGrid { grid-template-columns: 1fr; }
+  .portraitFrame img { height: 380px; }
+}
+
+@media (max-width: 840px) {
+  .navDesktop { display: none; }
+  .navToggle { display: inline-flex; }
+  .navMobile.open { display: block; }
+}
