@@ -40,7 +40,7 @@ export default function ProjectModal({ project, onClose }) {
       role="dialog"
       aria-modal="true"
       aria-label={`${project.title} case study`}
-      onMouseDown={onOverlayMouseDown}
+      onClick={onOverlayMouseDown}
     >
       <div className="modal">
         <header className="modalHeader">
