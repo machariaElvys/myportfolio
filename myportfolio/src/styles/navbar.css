@@ -14,6 +14,12 @@
   justify-content: space-between;
 }
 
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .brand {
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -28,8 +34,50 @@
 .navLink {
   color: var(--muted);
   font-size: 14px;
+  position: relative;
+  padding: 6px 2px;
 }
-.navLink:hover { color: var(--text); }
+
+.navLink:hover {
+  color: var(--text);
+}
+
+.navLink.active {
+  color: var(--text);
+}
+
+.navLink.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 999px;
+  opacity: 0.9;
+}
+
+.themeToggle {
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 120ms ease, border-color 120ms ease;
+}
+
+.themeToggle:hover {
+  transform: translateY(-1px);
+  border-color: var(--text);
+}
+
+.themeToggle:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  outline-offset: 3px;
+}
 
 .navToggle {
   display: none;
@@ -48,7 +96,10 @@
   background: var(--text);
   border-radius: 999px;
 }
-.navToggle .bar + .bar { margin-top: 8px; }
+
+.navToggle .bar + .bar {
+  margin-top: 8px;
+}
 
 .navMobile {
   display: none;
@@ -69,4 +120,11 @@
   border: 1px solid var(--border);
   background: transparent;
 }
-.navMobileLink:hover { border-color: var(--text); }
+
+.navMobileLink:hover {
+  border-color: var(--text);
+}
+
+.navMobileLink.active {
+  border-color: var(--text);
+}
