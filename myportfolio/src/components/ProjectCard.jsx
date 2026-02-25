@@ -1,4 +1,4 @@
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, onOpen }) {
   return (
     <article className="card">
       <div className="cardMedia">
@@ -23,7 +23,12 @@ export default function ProjectCard({ project }) {
 
         <div className="cardActions">
           {project.liveUrl ? (
-            <a className="btn btnPrimary" href={project.liveUrl} target="_blank" rel="noreferrer">
+            <a
+              className="btn btnPrimary"
+              href={project.liveUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
               Live
             </a>
           ) : (
@@ -33,7 +38,12 @@ export default function ProjectCard({ project }) {
           )}
 
           {project.repoUrl ? (
-            <a className="btn btnSecondary" href={project.repoUrl} target="_blank" rel="noreferrer">
+            <a
+              className="btn btnSecondary"
+              href={project.repoUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
               GitHub
             </a>
           ) : (
@@ -41,6 +51,14 @@ export default function ProjectCard({ project }) {
               GitHub
             </span>
           )}
+
+          <button
+            className="btn btnSecondary"
+            type="button"
+            onClick={() => onOpen(project)}
+          >
+            Details
+          </button>
         </div>
       </div>
     </article>

@@ -9,6 +9,7 @@ import "./styles/navbar.css";
 import "./styles/sections.css";
 import "./styles/cards.css";
 import "./styles/responsive.css";
+import "./styles/modal.css";
 
 document.documentElement.classList.add("js");
 

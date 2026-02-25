@@ -1,0 +1,153 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(0, 0, 0, 0.55);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.modal {
+  width: min(980px, 100%);
+  max-height: min(86vh, 860px);
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.modalHeader {
+  padding: 18px 18px 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modalEyebrow {
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.modalTitle {
+  margin: 0 0 6px;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+}
+
+.modalSubtitle {
+  margin: 0;
+  color: var(--muted);
+  max-width: 70ch;
+}
+
+.modalClose {
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.modalClose:hover {
+  border-color: var(--text);
+  transform: translateY(-1px);
+}
+
+.modalBody {
+  padding: 18px;
+}
+
+.modalTop {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 18px;
+}
+
+.modalImageFrame {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.modalImageFrame img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+}
+
+.modalMeta {
+  display: grid;
+  gap: 12px;
+}
+
+.modalMetaBlock {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+
+.modalMetaTitle {
+  margin: 0 0 10px;
+  font-weight: 700;
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.modalGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.modalSection {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+
+.modalH3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+
+.modalText p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.modalList {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+}
+
+.modalList li + li {
+  margin-top: 6px;
+}
+
+@media (max-width: 900px) {
+  .modalTop {
+    grid-template-columns: 1fr;
+  }
+  .modalImageFrame img {
+    height: 240px;
+  }
+  .modalGrid {
+    grid-template-columns: 1fr;
+  }
+}
