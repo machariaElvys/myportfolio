@@ -9,7 +9,7 @@ function goTo(id) {
 
 export default function Home() {
   return (
-    <section id="home" className="section hero">
+    <section id="home" className="section hero reveal is-visible">
       <div className="container heroGrid">
         <div className="heroText">
           <p className="eyebrow">Portfolio</p>

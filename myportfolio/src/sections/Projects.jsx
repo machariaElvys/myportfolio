@@ -3,7 +3,7 @@ import ProjectCard from "../components/ProjectCard.jsx";
 
 export default function Projects() {
   return (
-    <section id="projects" className="section">
+    <section id="projects" className="section reveal">
       <div className="container">
         <div className="sectionHeader">
           <h2 className="sectionTitle">Projects</h2>

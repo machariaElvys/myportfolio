@@ -19,7 +19,7 @@ function Group({ title, items }) {
 
 export default function Skills() {
   return (
-    <section id="skills" className="section">
+    <section id="skills" className="section reveal">
       <div className="container">
         <div className="sectionHeader">
           <h2 className="sectionTitle">Skills</h2>

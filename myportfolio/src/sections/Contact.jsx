@@ -14,7 +14,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section">
+    <section id="contact" className="section reveal">
       <div className="container split">
         <div>
           <h2 className="sectionTitle">Contact</h2>
