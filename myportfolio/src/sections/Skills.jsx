@@ -1,6 +1,6 @@
 const FRONTEND = ["HTML", "CSS", "JavaScript", "React"];
 const BACKEND = ["Flask", "REST APIs", "PostgreSQL"];
-const TOOLS = ["Git", "GitHub", "Vercel", "Render"];
+const TOOLS = ["Git", "GitHub", "Vercel", "Postman", "VS Code"];
 
 function Group({ title, items }) {
   return (
