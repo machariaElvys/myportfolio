@@ -7,7 +7,7 @@ export default function Home() {
         <div className="hero-copy">
           <p className="eyebrow"><span className="eyebrow-dot" /> FULL-STACK DEVELOPER <span className="eyebrow-separator">/</span> PORTFOLIO</p>
           <h1>Good ideas,<br />made <span>useful.</span></h1>
-          <p className="hero-description">I’m Macharia — a developer who turns thoughtful ideas into clear, reliable web experiences.</p>
+          <p className="hero-description">I’m Macharia, a developer who turns thoughtful ideas into clear, reliable web experiences.</p>
           <div className="hero-buttons">
             <a className="button button-dark" href="#projects">Explore my work <span aria-hidden="true">↓</span></a>
             <a className="button button-text" href="#contact">Get in touch <span aria-hidden="true">↗</span></a>

@@ -7,7 +7,7 @@ export default function About() {
           <h2>I care about the<br />details <span>and</span> the<br />big picture.</h2>
           <div className="about-copy">
             <p className="about-lead">I build web applications with a focus on clarity, performance, and maintainable code.</p>
-            <p>I enjoy bringing clean interfaces and dependable APIs together — from the first sketch of an idea to the details that make a product feel easy to use.</p>
+            <p>I enjoy bringing clean interfaces and dependable APIs together from the first sketch of an idea to the details that make a product feel easy to use.</p>
             <p>Right now, I’m growing my full-stack practice through hands-on projects and turning new ideas into useful tools.</p>
             <a className="inline-link" href="#contact">A project in mind? Let’s talk <span aria-hidden="true">↗</span></a>
           </div>
