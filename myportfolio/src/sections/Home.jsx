@@ -1,45 +1,27 @@
-import portrait from "../assets/potrait.jpg";
-
-function goTo(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
-  window.history.replaceState(null, "", `#${id}`);
-}
+import ProjectVisual from "../components/ProjectVisual.jsx";
 
 export default function Home() {
   return (
-    <section id="home" className="section hero reveal is-visible">
-      <div className="container heroGrid">
-        <div className="heroText">
-          <p className="eyebrow">Portfolio</p>
-          <h1 className="headline">Macharia</h1>
-          <p className="subhead">
-            Full-Stack Developer focused on clean UI and solid APIs
-          </p>
-
-          <div className="heroActions">
-            <button className="btn btnPrimary" type="button" onClick={() => goTo("projects")}>
-              View Projects
-            </button>
-            <button className="btn btnSecondary" type="button" onClick={() => goTo("contact")}>
-              Contact
-            </button>
+    <section id="home" className="hero-section reveal is-visible">
+      <div className="hero-grid">
+        <div className="hero-copy">
+          <p className="eyebrow"><span className="eyebrow-dot" /> FULL-STACK DEVELOPER <span className="eyebrow-separator">/</span> PORTFOLIO</p>
+          <h1>Good ideas,<br />made <span>useful.</span></h1>
+          <p className="hero-description">I’m Macharia — a developer who turns thoughtful ideas into clear, reliable web experiences.</p>
+          <div className="hero-buttons">
+            <a className="button button-dark" href="#projects">Explore my work <span aria-hidden="true">↓</span></a>
+            <a className="button button-text" href="#contact">Get in touch <span aria-hidden="true">↗</span></a>
           </div>
-
-          <div className="heroMeta">
-            <span className="metaItem">React</span>
-            <span className="metaItem">Flask</span>
-            <span className="metaItem">PostgreSQL</span>
-          </div>
+          <div className="hero-stack"><span>BUILDING WITH</span><i>React</i><b>·</b><i>FastAPI</i><b>·</b><i>PostgreSQL</i></div>
         </div>
-
-        <div className="heroMedia">
-          <div className="portraitFrame">
-            <img src={portrait} alt="Macharia portrait" loading="eager" />
-          </div>
+        <div className="hero-showcase">
+          <div className="showcase-note"><span>SELECTED WORK</span><span>01 — 03</span></div>
+          <div className="showcase-art"><ProjectVisual type="shamba" compact /></div>
+          <div className="showcase-caption"><div><span>FEATURED PROJECT</span><strong>Shamba-Smart</strong></div><a href="#projects" aria-label="See all projects">↗</a></div>
+          <span className="showcase-orbit orbit-one" /><span className="showcase-orbit orbit-two" />
         </div>
       </div>
+      <a className="scroll-cue" href="#about"><span>SCROLL TO EXPLORE</span><i>↓</i></a>
     </section>
   );
 }

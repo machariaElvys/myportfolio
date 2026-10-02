@@ -1,165 +1,50 @@
 import { useEffect, useRef } from "react";
+import ProjectVisual from "./ProjectVisual.jsx";
 
 export default function ProjectModal({ project, onClose }) {
-  const closeBtnRef = useRef(null);
+  const closeRef = useRef(null);
+  const study = project.caseStudy;
 
   useEffect(() => {
-    const prevOverflow = document.body.style.overflow;
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
-    const onKeyDown = (e) => {
-      if (e.key === "Escape") onClose();
+    closeRef.current?.focus();
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") onClose();
     };
-
     window.addEventListener("keydown", onKeyDown);
-
-    closeBtnRef.current?.focus();
-
     return () => {
-      document.body.style.overflow = prevOverflow;
+      document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [onClose]);
 
-  const cs = project.caseStudy || {};
-
-  const Section = ({ title, children }) => (
-    <section className="modalSection">
-      <h3 className="modalH3">{title}</h3>
-      <div className="modalText">{children}</div>
-    </section>
-  );
-
-  const onOverlayMouseDown = (e) => {
-    if (e.target === e.currentTarget) onClose();
-  };
-
   return (
-    <div
-      className="modalOverlay"
-      role="dialog"
-      aria-modal="true"
-      aria-label={`${project.title} case study`}
-      onClick={onOverlayMouseDown}
-    >
-      <div className="modal">
-        <header className="modalHeader">
-          <div>
-            <p className="modalEyebrow">Case Study</p>
-            <h2 className="modalTitle">{project.title}</h2>
-            <p className="modalSubtitle">
-              {cs.subtitle || project.description}
-            </p>
-          </div>
-
-          <button
-            ref={closeBtnRef}
-            className="modalClose"
-            type="button"
-            onClick={onClose}
-            aria-label="Close"
-          >
-            Close
-          </button>
-        </header>
-
-        <div className="modalBody">
-          <div className="modalTop">
-            <div className="modalImageFrame">
-              <img src={project.image} alt={`${project.title} preview`} />
-            </div>
-
-            <div className="modalMeta">
-              <div className="modalMetaBlock">
-                <p className="modalMetaTitle">Stack</p>
-                <div className="stack">
-                  {project.stack.map((t) => (
-                    <span className="tag" key={t}>
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="modalActions">
-                {project.liveUrl ? (
-                  <a
-                    className="btn btnPrimary"
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Live
-                  </a>
-                ) : (
-                  <span className="btn btnDisabled" aria-disabled="true">
-                    Live
-                  </span>
-                )}
-
-                {project.repoUrl ? (
-                  <a
-                    className="btn btnSecondary"
-                    href={project.repoUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    GitHub
-                  </a>
-                ) : (
-                  <span className="btn btnDisabled" aria-disabled="true">
-                    GitHub
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="modalGrid">
-            <Section title="Overview">
-              <p>{cs.overview || project.description}</p>
-            </Section>
-
-            {cs.problem ? (
-              <Section title="Problem">
-                <p>{cs.problem}</p>
-              </Section>
-            ) : null}
-
-            {cs.solution ? (
-              <Section title="Solution">
-                <p>{cs.solution}</p>
-              </Section>
-            ) : null}
-
-            {Array.isArray(cs.features) && cs.features.length ? (
-              <Section title="Key Features">
-                <ul className="modalList">
-                  {cs.features.map((f) => (
-                    <li key={f}>{f}</li>
-                  ))}
-                </ul>
-              </Section>
-            ) : null}
-
-            {cs.challenges ? (
-              <Section title="Challenges">
-                <p>{cs.challenges}</p>
-              </Section>
-            ) : null}
-
-            {Array.isArray(cs.nextSteps) && cs.nextSteps.length ? (
-              <Section title="Next Steps">
-                <ul className="modalList">
-                  {cs.nextSteps.map((n) => (
-                    <li key={n}>{n}</li>
-                  ))}
-                </ul>
-              </Section>
-            ) : null}
-          </div>
+    <div className="modal-scrim" role="presentation" onMouseDown={(event) => {
+      if (event.target === event.currentTarget) onClose();
+    }}>
+      <section className="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div className="modal-heading">
+          <div><span className="modal-kicker">PROJECT {project.number} <span>·</span> {project.status.toUpperCase()}</span><h2 id="modal-title">{project.title}</h2></div>
+          <button ref={closeRef} className="modal-close" type="button" onClick={onClose} aria-label="Close project details">×</button>
         </div>
-      </div>
+        <div className="modal-visual"><ProjectVisual type={project.id} compact /></div>
+        <div className="modal-body">
+          <div className="modal-summary"><p className="modal-label">THE PROJECT</p><p>{study.overview}</p></div>
+          <div className="modal-story">
+            <div><p className="modal-label">THE CHALLENGE</p><p>{study.problem}</p></div>
+            <div><p className="modal-label">THE APPROACH</p><p>{study.solution}</p></div>
+          </div>
+          <div className="modal-bottom">
+            <div><p className="modal-label">TOOLS &amp; FOCUS</p><div className="project-tags">{project.stack.map((item) => <span key={item}>{item}</span>)}</div></div>
+            <div className="modal-links">
+              {project.liveUrl && <a className="button button-dark" href={project.liveUrl} target="_blank" rel="noreferrer">Visit live site <span aria-hidden="true">↗</span></a>}
+              {project.repoUrl && <a className="button button-outline" href={project.repoUrl} target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>}
+            </div>
+          </div>
+          {study.features?.length > 0 && <div className="modal-features"><p className="modal-label">HIGHLIGHTS</p><ul>{study.features.map((feature) => <li key={feature}>{feature}</li>)}</ul></div>}
+        </div>
+      </section>
     </div>
   );
 }

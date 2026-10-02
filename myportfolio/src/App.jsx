@@ -1,8 +1,6 @@
 import { useEffect } from "react";
-
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
-
 import Home from "./sections/Home.jsx";
 import About from "./sections/About.jsx";
 import Projects from "./sections/Projects.jsx";
@@ -11,50 +9,37 @@ import Contact from "./sections/Contact.jsx";
 
 export default function App() {
   useEffect(() => {
-    const prefersReduced =
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const sections = document.querySelectorAll(".reveal");
 
-    if (prefersReduced) {
-      document.querySelectorAll(".reveal").forEach((el) => {
-        el.classList.add("is-visible");
-      });
-      return;
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      sections.forEach((section) => section.classList.add("is-visible"));
+      return undefined;
     }
 
-    const els = Array.from(document.querySelectorAll(".reveal"));
-
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        });
-      },
+      (entries) => entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }),
       { threshold: 0.12 }
     );
 
-    els.forEach((el) => {
-      if (el.classList.contains("is-visible")) return;
-      observer.observe(el);
-    });
-
+    sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, []);
 
   return (
     <>
       <Navbar />
-
-      <main>
+      <main id="main-content">
         <Home />
         <About />
         <Projects />
         <Skills />
         <Contact />
       </main>
-
       <Footer />
     </>
   );

@@ -2,9 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>myportfolio</title>
+    <meta name="theme-color" content="#f7f6f1" />
+    <meta name="description" content="Macharia is a full-stack developer building thoughtful web experiences and useful digital products." />
+    <script>
+      (() => {
+        try {
+          const saved = localStorage.getItem("theme");
+          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const theme = saved === "light" || saved === "dark"
+            ? saved
+            : prefersDark ? "dark" : "light";
+          document.documentElement.dataset.theme = theme;
+          document.querySelector('meta[name="theme-color"]').content = theme === "dark" ? "#111915" : "#f7f6f1";
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+    <title>Macharia — Full-stack developer</title>
   </head>
   <body>
     <div id="root"></div>

@@ -1,185 +1,104 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
-const LINKS = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
-  { label: "Contact", href: "#contact" },
+const links = [
+  ["About", "about"],
+  ["Work", "projects"],
+  ["Skills", "skills"],
+  ["Contact", "contact"],
 ];
-
-function scrollToHash(hash) {
-  const id = (hash || "").replace("#", "");
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function getInitialTheme() {
-  const saved = localStorage.getItem("theme");
-  if (saved === "light" || saved === "dark") return saved;
-
-  const prefersDark =
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-  return prefersDark ? "dark" : "light";
-}
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [activeId, setActiveId] = useState("home");
-  const [theme, setTheme] = useState("light");
-
-  const sectionIds = useMemo(
-    () => LINKS.map((l) => l.href.replace("#", "")),
-    []
-  );
+  const [active, setActive] = useState("home");
+  const [theme, setTheme] = useState(() => document.documentElement.dataset.theme || "light");
 
   useEffect(() => {
-    const initial = getInitialTheme();
-    setTheme(initial);
-    document.documentElement.setAttribute("data-theme", initial);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const current = entries.filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (current?.target.id) setActive(current.target.id);
+      },
+      { rootMargin: "-35% 0px -55% 0px", threshold: [0.05, 0.2, 0.4] }
+    );
 
-    const onResize = () => {
-      if (window.innerWidth >= 840) setOpen(false);
-    };
-
-    const onKeyDown = (e) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-
-    window.addEventListener("resize", onResize);
-    window.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      window.removeEventListener("resize", onResize);
-      window.removeEventListener("keydown", onKeyDown);
-    };
+    ["home", ...links.map(([, id]) => id)].forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    const sections = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter(Boolean);
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, []);
 
-    if (sections.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-        if (visible?.target?.id) {
-          setActiveId(visible.target.id);
-        }
-      },
-      {
-        root: null,
-        rootMargin: "-40% 0px -55% 0px",
-        threshold: [0.05, 0.15, 0.25, 0.35, 0.5],
-      }
-    );
-
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
-  }, [sectionIds]);
-
-  const onNavClick = (e, href) => {
-    e.preventDefault();
-    setOpen(false);
-
-    const id = href.replace("#", "");
-    setActiveId(id);
-
-    scrollToHash(href);
-    window.history.replaceState(null, "", href);
-  };
-
+  const closeMenu = () => setOpen(false);
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", next === "dark" ? "#111915" : "#f7f6f1");
     setTheme(next);
-    document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("theme", next);
+    try {
+      localStorage.setItem("theme", next);
+    } catch {
+      // Keep the current page theme even when storage is unavailable.
+    }
   };
 
   return (
-    <header className="siteHeader">
-    <a className="skipLink" href="#home">
-      Skip to content
-     </a>
-     
-      <div className="container navRow">
-        <a
-          className="brand"
-          href="#home"
-          onClick={(e) => onNavClick(e, "#home")}
-        >
-          Macharia
-        </a>
-
-        <div className="navRight">
-          <nav className="navDesktop" aria-label="Primary navigation">
-            {LINKS.map((l) => {
-              const id = l.href.replace("#", "");
-              const isActive = activeId === id;
-
-              return (
-                <a
-                  key={l.href}
-                  className={`navLink ${isActive ? "active" : ""}`}
-                  href={l.href}
-                  onClick={(e) => onNavClick(e, l.href)}
-                >
-                  {l.label}
-                </a>
-              );
-            })}
+    <>
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <header className="site-header">
+        <div className="nav-shell">
+          <a className="wordmark" href="#home" onClick={closeMenu} aria-label="Macharia, home">
+            <span className="wordmark-mark">M</span>
+            <span>macharia<span className="wordmark-period">.</span></span>
+          </a>
+          <nav className="desktop-nav" aria-label="Main navigation">
+            {links.map(([label, id]) => (
+              <a key={id} className={active === id ? "nav-link active" : "nav-link"} href={`#${id}`}>
+                {label}
+              </a>
+            ))}
           </nav>
-
+          <a className="nav-cta" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
           <button
-            className="themeToggle"
+            className="theme-toggle"
             type="button"
             onClick={toggleTheme}
-            aria-label="Toggle theme"
-            title="Toggle theme"
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            aria-pressed={theme === "dark"}
+            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           >
-            {theme === "dark" ? "Dark" : "Light"}
+            {theme === "dark" ? (
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5" /><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" /></svg>
+            ) : (
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.4A8.6 8.6 0 0 1 8.6 3.8 8.7 8.7 0 1 0 20.2 15.4Z" /></svg>
+            )}
           </button>
-
           <button
-            className="navToggle"
+            className={`menu-toggle${open ? " is-open" : ""}`}
             type="button"
-            aria-label="Toggle menu"
+            aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
+            aria-controls="mobile-navigation"
+            onClick={() => setOpen((value) => !value)}
           >
-            <span className="bar" />
-            <span className="bar" />
+            <span /><span />
           </button>
         </div>
-      </div>
-
-      <div className={`navMobile ${open ? "open" : ""}`}>
-        <div className="container navMobileInner" aria-label="Mobile navigation">
-          {LINKS.map((l) => {
-            const id = l.href.replace("#", "");
-            const isActive = activeId === id;
-
-            return (
-              <a
-                key={l.href}
-                className={`navMobileLink ${isActive ? "active" : ""}`}
-                href={l.href}
-                onClick={(e) => onNavClick(e, l.href)}
-              >
-                {l.label}
-              </a>
-            );
-          })}
-        </div>
-      </div>
-    </header>
+        <nav id="mobile-navigation" className={`mobile-nav${open ? " is-open" : ""}`} aria-label="Mobile navigation" aria-hidden={!open}>
+          {links.map(([label, id]) => (
+            <a key={id} href={`#${id}`} onClick={closeMenu}>{label}<span aria-hidden="true">↗</span></a>
+          ))}
+          <a href="#contact" onClick={closeMenu}>Let’s talk<span aria-hidden="true">↗</span></a>
+        </nav>
+      </header>
+    </>
   );
 }

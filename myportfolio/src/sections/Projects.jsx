@@ -6,28 +6,17 @@ import ProjectModal from "../components/ProjectModal.jsx";
 export default function Projects() {
   const [selected, setSelected] = useState(null);
 
-  const toggleProject = (project) => {
-    setSelected((prev) => (prev?.id === project.id ? null : project));
-  };
-
-  const closeProject = () => setSelected(null);
-
   return (
-    <section id="projects" className="section reveal">
-      <div className="container">
-        <div className="sectionHeader">
-          <h2 className="sectionTitle">Projects</h2>
-          <p className="muted">Tap a card to open. Tap it again to close.</p>
+    <section id="projects" className="section projects-section reveal">
+      <div className="section-wrap">
+        <div className="section-intro"><span className="section-index">02 / SELECTED WORK</span><span className="section-aside">A FEW THINGS I’VE MADE</span></div>
+        <div className="projects-heading"><h2>Built with<br /><span>intention.</span></h2><p>A selection of product ideas, interfaces, and tools — each one a chance to make something clearer and more useful.</p></div>
+        <div className="projects-grid">
+          {projects.map((project) => <ProjectCard key={project.id} project={project} onDetails={setSelected} />)}
         </div>
-
-        <div className="grid">
-          {projects.map((p) => (
-            <ProjectCard key={p.id} project={p} onToggle={toggleProject} />
-          ))}
-        </div>
+        <div className="projects-footnote"><span>MORE PROJECTS ARE TAKING SHAPE</span><span>↘</span></div>
       </div>
-
-      {selected ? <ProjectModal project={selected} onClose={closeProject} /> : null}
+      {selected && <ProjectModal project={selected} onClose={() => setSelected(null)} />}
     </section>
   );
 }
